@@ -275,3 +275,221 @@ class DeleteUpdateClinic(APIView):
         except:
             return Response({"delete": False, "errors": "Error Occured"})
 
+
+
+class GlucoseView(APIView):
+    @staticmethod
+    def post(request):
+        try:
+            data = request.data
+            serialized = GlucosePostSerializer(data=data)
+            isvalid = serialized.is_valid()
+            if isvalid:
+                serialized.save()
+                return Response({"save": True})
+            return Response({"save": False, "errors": serialized.errors})
+        except:
+            return Response({"save": False})
+
+
+    @staticmethod
+    def get(request):
+        userId = request.GET.get("userId")
+        try:
+            user = User.objects.get(id=userId)
+            glucose = Glucose.objects.filter(user=user)
+            serialized = GlucoseGetSerializer(instance=glucose, many=True)
+            return Response(serialized.data)
+        except:
+            return Response([])
+
+
+
+# {
+#   "user": "75c03b21-a226-477b-9f98-02e01975b57c",
+#   "value": 100,
+#   "label": [
+#     {"name": "Normal"},
+#     {"name": "Postprandial"},
+#     {"name": "Fasting"}
+#   ],
+#   "note": "This is a test note.",
+#   "time": "2024-04-01T08:00:00"
+# }
+
+class DeleteUpdateGlucose(APIView):
+    @staticmethod
+    def post(request):
+        # try:
+        #     data = request.data
+        #     glucose = Glucose.objects.get(id=data['id'])
+        #     serialized = GlucosePostSerializer(glucose, data=request.data)
+        #     isvalid = serialized.is_valid()
+        #     if isvalid:
+        #         return Response({"update": True})
+        #     return Response({"update": False, "errors": serialized.errors})
+        # except:
+        #     return Response({"update": False})
+        pass
+
+    @staticmethod
+    def get(request):
+        try:
+            glucoseId = request.GET.get("glucoseId")
+            glucose = Glucose.objects.get(id=glucoseId)
+            glucose.delete()
+            return Response({"delete": True})
+        except:
+            return Response({"delete": False})
+
+
+
+# {
+#     "id": "ef80f19b-072b-4f8e-9ac8-bafb023fa377",
+#     "user": "75c03b21-a226-477b-9f98-02e01975b57c",
+#     "value": 100,
+#     "label": [
+#         {
+#             "name": "Good"
+#         },
+#         {
+#             "name": "Fasting"
+#         }
+#     ],
+#     "note": "This is a test note.",
+#     "time": "2024-04-01T08:00:00+03:00"
+# }
+
+
+
+class MedicineView(APIView):
+    @staticmethod
+    def post(request):
+        try:
+            data = request.data
+            serialized = MedicinePostSerializer(data=data)
+            isvalid = serialized.is_valid()
+            if isvalid:
+                serialized.save()
+                return Response({"save": True})
+            return Response({"save": False, "errors": serialized.errors})
+        except:
+            return Response({"save": False})
+
+    @staticmethod
+    def get(request):
+        userId = request.GET.get("userId")
+        try:
+            user = User.objects.get(id=userId)
+            medicine = Medicine.objects.filter(user=user)
+            serialized = MedicineGetSerializer(instance=glucose, many=True)
+            return Response(serialized.data)
+        except:
+            return Response([])
+
+
+
+class DeleteUpdateMedicine(APIView):
+    @staticmethod
+    def post(request):
+        pass
+
+    @staticmethod
+    def get(request):
+        try:
+            medicineId = request.GET.get("medicineId")
+            medicine = Medicine.objects.get(id=medicineId)
+            medicine.delete()
+            return Response({"delete": True})
+        except:
+            return Response({"delete": False})
+
+
+
+class InsulinView(APIView):
+    @staticmethod
+    def post(request):
+        try:
+            data = request.data
+            serialized = InsulinePostSerializer(data=data)
+            isvalid = serialized.is_valid()
+            if isvalid:
+                serialized.save()
+                return Response({"save": True})
+            return Response({"save": False, "errors": serialized.errors})
+        except:
+            return Response({"save": False})
+
+    @staticmethod
+    def get(request):
+        userId = request.GET.get("userId")
+        try:
+            user = User.objects.get(id=userId)
+            insulin = Insulin.objects.filter(user=user)
+            serialized = InsulineGetSerializer(instance=insulin, many=True)
+            return Response(serialized.data)
+        except:
+            return Response([])
+
+
+
+class DeleteUpdateInsulin(APIView):
+    @staticmethod
+    def post(request):
+        pass
+
+    @staticmethod
+    def get(request):
+        try:
+            insulinId = request.GET.get("insulinId")
+            insulin = Insulin.objects.get(id=insulinId)
+            insulin.delete()
+            return Response({"delete": True})
+        except:
+            return Response({"delete": False})
+
+
+
+class PressureView(APIView):
+    @staticmethod
+    def post(request):
+        try:
+            data = request.data
+            serialized = PressurePostSerializer(data=data)
+            isvalid = serialized.is_valid()
+            if isvalid:
+                serialized.save()
+                return Response({"save": True})
+            return Response({"save": False, "errors": serialized.errors})
+        except:
+            return Response({"save": False})
+
+    @staticmethod
+    def get(request):
+        userId = request.GET.get("userId")
+        try:
+            user = User.objects.get(id=userId)
+            pressure = Pressure.objects.filter(user=user)
+            serialized = PressureGetSerializer(instance=pressure, many=True)
+            return Response(serialized.data)
+        except:
+            return Response([])
+
+
+
+class DeleteUpdatePressure(APIView):
+    @staticmethod
+    def post(request):
+        pass
+
+    @staticmethod
+    def get(request):
+        try:
+            pressureId = request.GET.get("pressureId")
+            pressure = Pressure.objects.get(id=pressureId)
+            pressure.delete()
+            return Response({"delete": True})
+        except:
+            return Response({"delete": False})
+
+

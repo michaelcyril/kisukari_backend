@@ -2,12 +2,23 @@ from django.db import models
 from user_management.models import User
 import uuid
 
+
+class GlucoseLabel(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        db_table = 'glucose_label'
+
+
 class Glucose(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # image = models.ImageField()
     value = models.IntegerField(null=True, blank=True)
-    label = models.CharField(max_length=255, unique=True)
+    label = models.ManyToManyField(GlucoseLabel,blank=True)
     note = models.TextField()
     time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -19,6 +30,16 @@ class Glucose(models.Model):
         db_table = 'glucose_tracker'
 
 
+class MedicineLabel(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        db_table = 'medicine_label'
+
+
 
 class Medicine(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -27,7 +48,7 @@ class Medicine(models.Model):
     pills = models.IntegerField(null=True, blank=True)
     description = models.TextField()
     note = models.TextField()
-    label = models.CharField(max_length=255, unique=True)
+    label = models.ManyToManyField(MedicineLabel,blank=True)
     time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -38,6 +59,16 @@ class Medicine(models.Model):
         db_table = 'medicine_tracker'
 
 
+class InsulineLabel(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        db_table = 'insuline_label'
+
+
 
 class Insulin(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -45,7 +76,7 @@ class Insulin(models.Model):
     # image = models.ImageField()
     value = models.IntegerField(null=True, blank=True)
     type = models.CharField(max_length=255, unique=True)
-    label = models.CharField(max_length=255, unique=True)
+    label = models.ManyToManyField(InsulineLabel,blank=True)
     note = models.TextField()
     time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -57,6 +88,16 @@ class Insulin(models.Model):
         db_table = 'insulin_tracker'
 
 
+class PressureLabel(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        db_table = 'pressure_label'
+
+
 
 class Pressure(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -64,7 +105,7 @@ class Pressure(models.Model):
     # image = models.ImageField()
     bp = models.IntegerField(null=True, blank=True)
     pressure = models.IntegerField(null=True, blank=True)
-    label = models.CharField(max_length=255, unique=True)
+    label = models.ManyToManyField(PressureLabel,blank=True)
     note = models.TextField()
     time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -74,20 +115,6 @@ class Pressure(models.Model):
 
     class Meta:
         db_table = 'pressure_tracker'
-
-
-# class Label(models.Model):
-#     glucise = models.ForeignKey(Glucose, on_delete=models.CASCADE)
-#     medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE)
-#     insuline = models.ForeignKey(Insulin, on_delete=models.CASCADE)
-#     pressure = models.ForeignKey(Pressure, on_delete=models.CASCADE)
-#     name = models.CharField(max_length=255, unique=True)
-#
-#     def __str__(self):
-#         return f'{self.name}'
-#
-#     class Meta:
-#         db_table = 'label'
 
 
 
@@ -112,7 +139,7 @@ class Clinic(models.Model):
 
 class ClinicMedicine(models.Model):
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     # image = models.ImageField()
 
     def __str__(self):

@@ -5,4 +5,5 @@ app_name = 'user_management'
 urlpatterns = [
     path('verify-phone', VerifyPhone.as_view()),
     path('verify-otp', VerifyOtp.as_view()),
+    path('all-users', AllUser.as_view()),
 ]

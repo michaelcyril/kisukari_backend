@@ -22,4 +22,5 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user-management/', include('user_management.urls', namespace="user_management")),
+    path('tracker-management/', include('tracker_management.urls', namespace="tracker_management")),
 ]

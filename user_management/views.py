@@ -147,4 +147,8 @@ class CompleteUserProfile(APIView):
 # }
 
 
-
+class AllUser(APIView):
+    @staticmethod
+    def get(request):
+        users = User.objects.values("id").all()
+        return Response(users)
